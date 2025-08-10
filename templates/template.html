@@ -13,7 +13,7 @@
 
         <p class="title_panel">Etapes pour les brocantes du {{ date }}:</p>
         {% for flea_market in flea_markets %}
-            {{ loop.index }}. {{ flea_market.town }} – {{ total_distance_km[loop.index0] }} km, {{ formatted_durations[loop.index0] }}<br>
+            {{ loop.index }}. {{ flea_market.town }} – {{ distance_step[loop.index0] }} km, {{ formatted_durations[loop.index0] }}<br>
         {% endfor %}
 
         <br><p class="title_panel">Instructions :</p>
