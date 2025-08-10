@@ -1,0 +1,60 @@
+.title_panel {
+    font-family: system-ui;
+    font-weight: bold;
+    color: #3C388F;
+    text-decoration: underline;
+}
+
+#Panel {
+    position: fixed;
+    top: 1%;
+    right: 1%;
+    width: 30%;
+    height: 85%;
+    border-radius: 2%;
+    padding: 17px;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-family: system-ui;
+    overflow: auto;
+}
+
+#Panel.reduced {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#reduce_button {
+    cursor: pointer;
+    position: absolute;
+    top: 1%;
+    right: 2%;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: #d3d3d3;
+    font-family: system-ui;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#Bar {
+    cursor: pointer;
+    position: fixed;
+    top: 2%;
+    right: 1%;
+    width: 30%;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-family: system-ui;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#Bar.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
