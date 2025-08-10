@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Route of the desired flea markets</title>
+    <link rel="stylesheet" href="templates/styles.css">
+</head>
+<body>
+
+    {{ html_map }}
+
+    <div id="Panel">
+        <div id="reduce_button">Réduire le panel</div>
+
+        <p class="title_panel">Étapes :</p>
+        {% for flea_market in flea_markets %}
+            {{ loop.index }}. {{ flea_market.town }} – {{ total_distance_km[loop.index0] }} km, {{ formatted_durations[loop.index0] }}<br>
+        {% endfor %}
+
+        <br><p class="title_panel">Instructions :</p>
+        {{ html_instructions }}
+
+        <br><p class="title_panel">Total :</p>
+        {{ nb_flea_markets }} ville(s) visitée(s) pour {{ total_distance_km }} km effectués et un trajet de {{ total_time_hr }} heures.
+    </div>
+
+    <div id="Bar">Cliquez-ici pour ouvrir le panel d'informations des étapes.</div>
+
+    <script>
+        const panel = document.getElementById('Panel');
+        const bar = document.getElementById('Bar');
+        const reduceButton = document.getElementById('reduce_button');
+
+        reduceButton.addEventListener('click', function() {
+            panel.classList.add('reduced');
+            bar.classList.add('visible');
+        });
+
+        bar.addEventListener('click', function() {
+            panel.classList.remove('reduced');
+            bar.classList.remove('visible');
+        });
+    </script>
+</body>
+</html>
