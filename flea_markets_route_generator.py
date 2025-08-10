@@ -267,7 +267,8 @@ def render_template(route_map, flea_markets, distance_step, time_step, total_dis
         html_instructions=html_instructions,
         start_town=start_town,
         nb_flea_markets = nb_flea_markets,
-        date = date
+        date = date,
+        distance_step = distance_step
     )
 
     with open("route.html", "w", encoding="utf-8") as f:
