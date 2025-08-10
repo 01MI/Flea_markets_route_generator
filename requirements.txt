@@ -1,0 +1,7 @@
+folium==0.20.0
+geopy==2.4.1
+Jinja2==3.1.6
+lxml==6.0.0
+openrouteservice==2.3.3
+python-dotenv==1.1.1
+Requests==2.32.4
