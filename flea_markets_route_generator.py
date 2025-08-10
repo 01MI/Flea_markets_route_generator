@@ -30,6 +30,8 @@ def get_flea_markets():
         results_flea_markets = []
 
         all_flea_markets = parsed_content.xpath('//div[@class="deptardt"]') + parsed_content.xpath('//div[@class="dept"]')
+        date = parsed_content.xpath('//h2[@id="datejour"]')
+        date = date[0].text_content().strip()
 
         for flea_market in all_flea_markets:
             towns = flea_market.xpath('.//ul/li/a')
@@ -46,7 +48,7 @@ def get_flea_markets():
                     "type_flea_market": type_flea_market,
                     "URL": url
                 })
-        return results_flea_markets
+        return results_flea_markets, date
     else:
         logging.error("An error occured while loading the page, the scripts stops.")
         sys.exit(1)
@@ -118,7 +120,7 @@ def distance_towns(flea_markets, start_town, radius):
                 flea_markets_within_radius.append(flea_market)        
     return coords_start_town, flea_markets_within_radius
 
-def get_trajet(flea_markets, coords_start_town, start_town):
+def get_trajet(flea_markets, coords_start_town, start_town, date):
     """
     Generates a .html route page to visit the various flea markets by car.
     The route contains markers and an information panel including instructions.
@@ -161,7 +163,7 @@ def get_trajet(flea_markets, coords_start_town, start_town):
 
     add_markers_and_route(route_map, flea_markets, coords_start_town, steps, distance_step, start_town, route, total_distance_km)
 
-    render_template(route_map, flea_markets, distance_step, time_step, total_distance_km, total_time_hr, nb_flea_markets, route, start_town)
+    render_template(route_map, flea_markets, distance_step, time_step, total_distance_km, total_time_hr, nb_flea_markets, route, start_town, date)
 
 def add_markers_and_route(route_map, flea_markets, coords_start_town, steps, distance_step, start_town, route, total_distance_km):
     """
@@ -233,7 +235,7 @@ def add_markers_and_route(route_map, flea_markets, coords_start_town, steps, dis
         ).add_to(route_map)
         step_index += 1
 
-def render_template(route_map, flea_markets, distance_step, time_step, total_distance_km, total_time_hr, nb_flea_markets, route, start_town):
+def render_template(route_map, flea_markets, distance_step, time_step, total_distance_km, total_time_hr, nb_flea_markets, route, start_town, date):
     """
     Renders the HTML map using the markers and route map.
     """
@@ -263,7 +265,8 @@ def render_template(route_map, flea_markets, distance_step, time_step, total_dis
         total_time_hr=total_time_hr,
         html_instructions=html_instructions,
         start_town=start_town,
-        nb_flea_markets = nb_flea_markets
+        nb_flea_markets = nb_flea_markets,
+        date = date
     )
 
     with open("route.html", "w", encoding="utf-8") as f:
@@ -285,10 +288,10 @@ def main():
     start_town = sys.argv[1].strip()
     radius = int(sys.argv[2].strip())
 
-    data_flea_markets = get_flea_markets()
+    data_flea_markets, date = get_flea_markets()
     location_flea_markets = get_location_flea_markets(data_flea_markets)
     coords_start_town, filtered_flea_markets = distance_towns(location_flea_markets, start_town, radius)
-    get_trajet(filtered_flea_markets, coords_start_town, start_town)
+    get_trajet(filtered_flea_markets, coords_start_town, start_town, date)
 
 if __name__ == '__main__':
     main()
