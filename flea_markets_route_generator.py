@@ -53,7 +53,7 @@ def get_flea_markets():
         logging.error("An error occured while loading the page, the scripts stops.")
         sys.exit(1)
 
-def get_location_flea_markets(flea_markets):
+def get_location_flea_markets(flea_markets, date):
     """
     Parses data from each flea market URL recovered and returns a list of dicts of the town and location of each flea market.
     Returns:
@@ -87,6 +87,7 @@ def get_location_flea_markets(flea_markets):
                             if key not in location_already_seen:
                                 results_locations.append({"town": flea_market["town"], "location_flea_market": line })
                                 location_already_seen.add(key)
+    print(date)                            
     print("=> Data about the nearby flea markets has been successfully retrieved")
     return results_locations
                     
@@ -289,7 +290,7 @@ def main():
     radius = int(sys.argv[2].strip())
 
     data_flea_markets, date = get_flea_markets()
-    location_flea_markets = get_location_flea_markets(data_flea_markets)
+    location_flea_markets = get_location_flea_markets(data_flea_markets, date)
     coords_start_town, filtered_flea_markets = distance_towns(location_flea_markets, start_town, radius)
     get_trajet(filtered_flea_markets, coords_start_town, start_town, date)
 
