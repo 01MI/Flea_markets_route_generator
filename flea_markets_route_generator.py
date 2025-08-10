@@ -117,7 +117,7 @@ def distance_towns(flea_markets, start_town, radius):
             distance_km = geodesic((coords_start_town[1], coords_start_town[0]), (coords_flea_market.latitude, coords_flea_market.longitude)).km
             if distance_km < radius:
                 flea_market["coords"] = [coords_flea_market.longitude, coords_flea_market.latitude]
-                print("Distance between", start_town, "and", flea_market["town"], ":", round(distance_km, 2), "km")
+                print("Distance between", start_town, "and", flea_market["town"], ":", round(distance_km, 2), "kms")
                 flea_markets_within_radius.append(flea_market)        
     return coords_start_town, flea_markets_within_radius
 
