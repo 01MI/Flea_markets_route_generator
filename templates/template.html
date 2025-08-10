@@ -11,7 +11,7 @@
     <div id="Panel">
         <div id="reduce_button">Réduire le panel</div>
 
-        <p class="title_panel">Étapes :</p>
+        <p class="title_panel">Etapes pour les brocantes du {{ date }}:</p>
         {% for flea_market in flea_markets %}
             {{ loop.index }}. {{ flea_market.town }} – {{ total_distance_km[loop.index0] }} km, {{ formatted_durations[loop.index0] }}<br>
         {% endfor %}
