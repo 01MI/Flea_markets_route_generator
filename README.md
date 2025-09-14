@@ -3,7 +3,7 @@
 ## Context
 
 Sabradou is a website listing flea markets in the north of France but it offers very limited functionality. You can’t filter or export a custom route for the flea markets you would like to visit.\
-This script solves that by allowing you to input a starting town and a maximum search radius then generates a optimized driving route to all nearby flea markets.
+This script solves that by allowing you to input a starting town and a maximum search radius then generates an optimized driving route to all nearby flea markets.
 
 The generated map includes:
    * A route with markers at each flea market.
