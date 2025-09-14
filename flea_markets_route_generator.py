@@ -284,12 +284,10 @@ def optimize_route(client, coords_start_town, flea_markets):
     """
     jobs = []
     i = 0
-    for fleamarket in flea_markets:
-        jobs.append({"id": i,"location": fleamarket["coords"]})
+    for flea_market in flea_markets:
+        jobs.append({"id": i,"location": flea_market["coords"]})
         i += 1
-
     vehicles = [{"id": 1, "start": coords_start_town, "end": coords_start_town, "profile": "driving-car"}]
-
     infos = {"jobs": jobs, "vehicles": vehicles}
 
     try:
@@ -299,11 +297,10 @@ def optimize_route(client, coords_start_town, flea_markets):
         return flea_markets
 
     optimized_route = []
-
     for step in result["routes"][0]["steps"]:
         if "id" in step:
-            market = flea_markets[step["id"]]
-            optimized_route.append(market)
+            flea_market = flea_markets[step["id"]]
+            optimized_route.append(flea_market)
 
     return optimized_route
 
@@ -324,8 +321,8 @@ def main():
     data_flea_markets, date = get_flea_markets()
     location_flea_markets = get_location_flea_markets(data_flea_markets, date)
     coords_start_town, filtered_flea_markets = distance_towns(location_flea_markets, start_town, radius)
-    filtered_fleamarkets = optimize_route(client, coords_start_town, filtered_flea_markets)
-    get_trajet(client, filteredflea_markets, coords_start_town, start_town, date)
+    filtered_flea_markets = optimize_route(client, coords_start_town, filtered_flea_markets)
+    get_trajet(client, filtered_flea_markets, coords_start_town, start_town, date)
 
 if __name__ == '__main__':
     main()
