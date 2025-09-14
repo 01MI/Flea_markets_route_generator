@@ -16,6 +16,9 @@ from jinja2 import Environment, FileSystemLoader
 load_dotenv()
 URL = "http://www.sabradou.com"
 
+API_KEY = os.getenv("API_KEY")
+client = openrouteservice.Client(key=API_KEY)
+
 def get_flea_markets():
     """
     Parses the request data from sabradou website and returns a list of dicts of each flea market.
@@ -121,15 +124,12 @@ def distance_towns(flea_markets, start_town, radius):
                 flea_markets_within_radius.append(flea_market)        
     return coords_start_town, flea_markets_within_radius
 
-def get_trajet(flea_markets, coords_start_town, start_town, date):
+def get_trajet(client, flea_markets, coords_start_town, start_town, date):
     """
     Generates a .html route page to visit the various flea markets by car.
     The route contains markers and an information panel including instructions.
     """
-  
-    API_KEY = os.getenv("API_KEY")
-    client = openrouteservice.Client(key=API_KEY)
-
+    
     steps = [coords_start_town]
     for flea_market in flea_markets:
         steps.append(flea_market["coords"])
@@ -276,6 +276,37 @@ def render_template(route_map, flea_markets, distance_step, time_step, total_dis
 
     print("Map saved to route.html")
 
+def optimize_route(client, coords_start_town, flea_markets):
+    """
+    Optimizes the most efficient route to visit all flea markets starting and ending at the same location.
+    Returns:
+        optimized_route
+    """
+    jobs = []
+    i = 0
+    for fleamarket in flea_markets:
+        jobs.append({"id": i,"location": fleamarket["coords"]})
+        i += 1
+
+    vehicles = [{"id": 1, "start": coords_start_town, "end": coords_start_town, "profile": "driving-car"}]
+
+    infos = {"jobs": jobs, "vehicles": vehicles}
+
+    try:
+        result = client.request("/optimization", {}, post_json=infos)
+    except Exception as e:
+        print("Error while trying to optimize")
+        return flea_markets
+
+    optimized_route = []
+
+    for step in result["routes"][0]["steps"]:
+        if "id" in step:
+            market = flea_markets[step["id"]]
+            optimized_route.append(market)
+
+    return optimized_route
+
 def main():
     if len(sys.argv) != 3:
         print("Expected 2 arguments:")
@@ -293,7 +324,8 @@ def main():
     data_flea_markets, date = get_flea_markets()
     location_flea_markets = get_location_flea_markets(data_flea_markets, date)
     coords_start_town, filtered_flea_markets = distance_towns(location_flea_markets, start_town, radius)
-    get_trajet(filtered_flea_markets, coords_start_town, start_town, date)
+    filtered_fleamarkets = optimize_route(client, coords_start_town, filtered_flea_markets)
+    get_trajet(client, filteredflea_markets, coords_start_town, start_town, date)
 
 if __name__ == '__main__':
     main()
