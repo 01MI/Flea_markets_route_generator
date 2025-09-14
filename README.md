@@ -3,7 +3,7 @@
 ## Context
 
 Sabradou is a website listing flea markets in the north of France but it offers very limited functionality. You can’t filter or export a custom route for the flea markets you would like to visit.\
-This script solves that by allowing you to input a starting town and a maximum search radius then generates a driving route to all nearby flea markets.
+This script solves that by allowing you to input a starting town and a maximum search radius then generates a optimized driving route to all nearby flea markets.
 
 The generated map includes:
    * A route with markers at each flea market.
@@ -46,9 +46,6 @@ It uses OpenRouteService and Geopy for everything related to the route.
     <td valign="middle"><img width="900" alt="Capture d’écran du 2025-08-10 23-19-08" src="https://github.com/user-attachments/assets/a4b13525-3531-417c-8487-9c7cae7ad3b4" /></td>
     </tr>
 </table>
-
-## To do
-* Finish optimization function
 
 
 
